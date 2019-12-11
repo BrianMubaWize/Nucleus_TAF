@@ -6,7 +6,7 @@ fixture `Login Tests`
     const credentialSelect = Selector('#idpbridge');
     const credentialsOption = credentialSelect.find('option');
 
-    test ('Test successfull login', async t => {
+    test ('Test fail login', async t => {
         await t .click(credentialSelect)
                 .click(credentialsOption.withText('AstraZeneca'))
                 .click(Selector('.button'))
