@@ -15,12 +15,12 @@ class LoginPage
 		this.mailErrorMessage = Selector('.error_msg>span');
     }
 
-    async login ()
+    async login (userName, password)
     {
         this.clickLoginButton();
         await t.switchToIframe(this.popUpFrame);
-        this.setUserName('brianmuba@gmail.com');
-        this.setPassword('brian1234');
+        this.setUserName(userName);
+        this.setPassword(password);
         this.clickLoginPopUpButton();
         await t.switchToMainWindow();
 
