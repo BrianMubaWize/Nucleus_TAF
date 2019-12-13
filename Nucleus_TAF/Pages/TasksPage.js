@@ -6,10 +6,12 @@ class TaskPage
 {
     constructor()
     {
-        this.addTask  = addTask.child();
-        this.addField = Selector('.DraftEditor-root'.child);
-        this.addTaskButton = Selector ('.item_actions'.child);
-        this.checkbox = Selector ('.ist_checkbox');
+        this.addTask            = addTask.child();
+        this.addFieldBox        = Selector('.DraftEditor-root');
+        this.addField           = this.addFieldBox.child();
+        this.beforeTaskButton   = Selector ('.item_actions');
+        this.addTaskButton      = this.beforeTaskButton.child();
+        this.checkbox           = Selector ('.ist_checkbox');
 		
     }
 
