@@ -1,26 +1,24 @@
 import { Selector, t } from 'testcafe';
 
-const addTask = Selector('.agenda_add_task');
+const addTask = Selector('#quick_add_task_holder');
 
 class TaskPage
 {
     constructor()
     {
-        this.addTask            = addTask.child();
-        this.addFieldBox        = Selector('.DraftEditor-root');
-        this.addField           = this.addFieldBox.child();
-        this.beforeTaskButton   = Selector ('.item_actions');
-        this.addTaskButton      = this.beforeTaskButton.child();
+        this.addTask            = addTask;
+        this.addFieldBox        = Selector ('.DraftEditor-editorContainer>div>div>div>div');
+        this.addTaskButton      = Selector ('.item_editor_actions>button');
         this.checkbox           = Selector ('.ist_checkbox');
-		
+        this.cancelButton       = this.addTaskButton.nextSibling;
+        this.tasksFound         = 0;
     }
 
-    async createTask (taskname)
+    async createTask (taskName)
     {
         this.clickAddTask();
-        this.setTaskName(taskname);
+        this.setTaskName(taskName);
         this.clickAddTaskButton();
-
     }
 
     async clickAddTask()
@@ -28,14 +26,29 @@ class TaskPage
         await t.click(this.addTask);
     }
 
-    async setTaskName(taskname)
+    async setTaskName(taskName)
 	{
-		await t.typeText(this.addField, taskname);
+		await t.typeText(this.addFieldBox, taskName);
     }
 
-    async addTaskButton()
+    async clickAddTaskButton()
     {
-        await t.click(this.addTaskButton);
+        await t.click (this.addTaskButton);
+        await t.click (this.cancelButton);
+
+    }
+
+    async createMultipleTasks(taskNum)
+    {
+        for(let i=0; i < taskNum; i++)
+        {
+            var Tasktext = Selector('.task_item_content_text').withText('Test' + i);
+            //await t.debug();
+            this.createTask('Test' +  i);
+             if (Tasktext.exists){
+                this.tasksFound++;
+            }
+        }
     }
 
     
