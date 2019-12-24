@@ -1,4 +1,4 @@
-version 2.1
+version: 2.1
 yarn_install: &yarn_install
   run:
     name: yarn install
@@ -27,30 +27,59 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
-  LoginTests:
-    docker:
+  login_tests:
+                docker:
                 - image: circleci/node:10.14-browsers
                 steps:
                 - checkout
                 - *yarn_install
                 - run: yarn login:chrome:headless
-  TasksTests:
-    docker:
+  tasks_tests:
+                docker:
                 - image: circleci/node:10.14-browsers
                 steps:
-                - checkout
-                - *yarn_install
-                - run: yarn tasks:chrome:headless
-
+                - run:
+                        name: tasks tests
+                        command: echo "Going to run tasks tests"
+  deploy_to_dev:
+                docker:
+                - image: circleci/node:10.14-browsers
+                steps:
+                - run:
+                        name: Deploy to Dev
+                        command: echo "Going to deploy to dev"
+  deploy_to_qa:
+                docker:
+                - image: circleci/node:10.14-browsers
+                steps:
+                - run:
+                        name: Deploy to QA
+                        command: echo "Going to deploy to QA"
+                - run:
+                        name: Step no 2
+                        command: echo "Going to deploy to Q2"
 workflows:
         version: 2
         sample_pipeline:
                 jobs:
-                        - build
+                        - build:
+                                filters:
+                                        branches:
+                                                only: Gloria_feature
                         - login_tests:
                                 requires:
                                 - build
                         - tasks_tests:
                                 requires:
+                                - build
+                        - deploy_to_dev:
+                                requires:
+                                - tasks_tests
                                 - login_tests
+                        - hold_for_approval:
+                                type: approval
+                                requires:
+                                - deploy_to_dev
+                        - deploy_to_qa:
+                                requires:
+                                - hold_for_approval
