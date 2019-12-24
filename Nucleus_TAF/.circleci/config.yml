@@ -43,7 +43,7 @@ jobs:
                 - *yarn_install
                 - run: yarn tasks:chrome:headless
 
-  workflows:
+workflows:
         version: 2
         sample_pipeline:
                 jobs:
