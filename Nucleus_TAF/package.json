@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "login:chrome:headless": "testcafe chrome:headless Nucleus_TAF/Tests/LoginTests.js ",
+    "tasks:chrome:headless": "testcafe chrome:headless Nucleus_TAF/Tests/TasksTests.js "
   },
   "author": "Brian",
   "license": "ISC",

@@ -1,0 +1,56 @@
+version 2.1
+yarn_install: &yarn_install
+  run:
+    name: yarn install
+    command: yarn install --non-interactive --frozen-lockfile
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.14-browsers
+
+    working_directory: ~/repo
+
+    environment:
+      URL:            $(env:URL)
+      USER_NAME:      $(env:USER_NAME)
+      PASSWORD:       $(env:PASSWORD)
+  
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+  LoginTests:
+    docker:
+                - image: circleci/node:10.14-browsers
+                steps:
+                - checkout
+                - *yarn_install
+                - run: yarn login:chrome:headless
+  TasksTests:
+    docker:
+                - image: circleci/node:10.14-browsers
+                steps:
+                - checkout
+                - *yarn_install
+                - run: yarn tasks:chrome:headless
+
+  workflows:
+        version: 2
+        sample_pipeline:
+                jobs:
+                        - build:
+                        - login_tests:
+                                requires:
+                                - build
+                        - tasks_tests:
+                                requires:
+                                - login_tests
