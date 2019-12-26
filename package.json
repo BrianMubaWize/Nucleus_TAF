@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "login:chrome:headless": "testcafe chrome:headless Nucleus_TAF/Tests/LoginTests.js ",
-    "tasks:chrome:headless": "testcafe chrome:headless Nucleus_TAF/Tests/TasksTests.js "
+    "tasks:chrome:headless": "testcafe chrome:headless Nucleus_TAF/Tests/TasksTests.js ",
+    "login:safari:headless": "testcafe safari:headless Nucleus_TAF/Tests/LoginTests.js"
   },
   "author": "Brian",
   "license": "ISC",

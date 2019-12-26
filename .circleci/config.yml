@@ -71,11 +71,10 @@ workflows:
                                 - build
                         - tasks_tests:
                                 requires:
-                                - build
+                                - login_tests
                         - deploy_to_dev:
                                 requires:
                                 - tasks_tests
-                                - login_tests
                         - hold_for_approval:
                                 type: approval
                                 requires:
